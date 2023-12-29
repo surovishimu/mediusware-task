@@ -9,14 +9,13 @@ const Problem2 = () => {
     const [selectedContact, setSelectedContact] = useState(null);
     const [showEvenContacts, setShowEvenContacts] = useState(false);
 
-    const openModalA = async (url) => {
+    const openAllContactsModal = async () => {
         try {
-            const response = await fetch(url);
+            const response = await fetch('https://contact.mediusware.com/api/contacts/?page=1&page_size=120');
             const data = await response.json();
             setContacts(data.results);
             setModalAIsOpen(true);
 
-          
             const newUrl = window.location.origin + window.location.pathname + '?modal=a';
             window.history.pushState({ modal: 'a' }, '', newUrl);
         } catch (error) {
@@ -24,14 +23,13 @@ const Problem2 = () => {
         }
     };
 
-    const openModalB = async (url) => {
+    const openUSContactsModal = async () => {
         try {
-            const response = await fetch(url);
+            const response = await fetch('https://contact.mediusware.com/api/country-contacts/united%20states/');
             const data = await response.json();
             setContacts(data.results);
             setModalBIsOpen(true);
 
-         
             const newUrl = window.location.origin + window.location.pathname + '?modal=b';
             window.history.pushState({ modal: 'b' }, '', newUrl);
         } catch (error) {
@@ -56,14 +54,13 @@ const Problem2 = () => {
     };
 
     useEffect(() => {
-     
         const urlParams = new URLSearchParams(window.location.search);
         const modalType = urlParams.get('modal');
 
         if (modalType === 'a') {
-            openModalA('https://contact.mediusware.com/api/contacts/?page=1&page_size=120');
+            openAllContactsModal();
         } else if (modalType === 'b') {
-            openModalB('https://contact.mediusware.com/api/country-contacts/united%20states/');
+            openUSContactsModal();
         }
     }, []);
 
@@ -76,18 +73,14 @@ const Problem2 = () => {
                     <button
                         className="btn btn-lg btn-outline-primary"
                         type="button"
-                        onClick={() =>
-                            openModalA('https://contact.mediusware.com/api/contacts/?page=1&page_size=120')
-                        }
+                        onClick={openAllContactsModal}
                     >
                         All Contacts
                     </button>
                     <button
                         className="btn btn-lg btn-outline-warning"
                         type="button"
-                        onClick={() =>
-                            openModalB('https://contact.mediusware.com/api/country-contacts/united%20states/')
-                        }
+                        onClick={openUSContactsModal}
                     >
                         US Contacts
                     </button>
@@ -109,16 +102,14 @@ const Problem2 = () => {
                     <button
                         className="btn btn-primary"
                         style={{ backgroundColor: '#46139f' }}
-                        onClick={() => openModalB('https://contact.mediusware.com/api/country-contacts/united%20states/')}
+                        onClick={openAllContactsModal}
                     >
                         All Contacts
                     </button>
                     <button
                         className="btn btn-warning"
                         style={{ backgroundColor: '#ff7f50' }}
-                        onClick={() =>
-                            openModalB('https://contact.mediusware.com/api/country-contacts/united%20states/')
-                        }
+                        onClick={openUSContactsModal}
                     >
                         US Contacts
                     </button>
@@ -151,18 +142,14 @@ const Problem2 = () => {
                     <button
                         className="btn btn-primary "
                         style={{ backgroundColor: '#46139f' }}
-                        onClick={() =>
-                            openModalA('https://contact.mediusware.com/api/contacts/?page=1&page_size=120')
-                        }
+                        onClick={openAllContactsModal}
                     >
                         All Contacts
                     </button>
                     <button
                         className="btn btn-warning"
                         style={{ backgroundColor: '#ff7f50' }}
-                        onClick={() =>
-                            openModalB('https://contact.mediusware.com/api/country-contacts/united%20states/')
-                        }
+                        onClick={openUSContactsModal}
                     >
                         US Contacts
                     </button>
